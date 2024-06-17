@@ -65,7 +65,19 @@ Before running `phi-3-text-generator.py`, you can modify several constants in th
 ### Execution Steps
 
 1. Open the `phi-3-text-generator.py` file and set the constants as needed.
-2. Run the script using the following command:
+2. Install poetry
+   ```sh
+   pip install poetry
+   ```
+3. Install the project dependencies. Go to the root directory of the project, and run:
+   ```sh
+   poetry install
+   ```
+4. Activate the virtual environment:
+   ```sh
+   poetry shell
+   ```
+5. Run the script with the following command:
 
    ```sh
    python phi-3-text-generator.py
@@ -83,4 +95,3 @@ By default, the generated files will be saved in an `out` directory created in t
    ```sh
    ls out
    ```
-
