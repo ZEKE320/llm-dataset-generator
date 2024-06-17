@@ -1,0 +1,78 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/python
+{
+  "name": "LLM Dataset Generator",
+  // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+
+  "containerEnv": {
+    "POETRY_VIRTUALENVS_IN_PROJECT": "true"
+  },
+
+  "features": {
+    "ghcr.io/devcontainers/features/java": {},
+    "ghcr.io/devcontainers/features/python": {
+      "version": "3.12.3"
+    },
+    "ghcr.io/devcontainers-contrib/features/poetry": {}
+  },
+
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "sonarlint.ls.javaHome": "/usr/local/sdkman/candidates/java/current"
+      },
+      "extensions": [
+        "christian-kohler.path-intellisense",
+        "DavidAnson.vscode-markdownlint",
+        "donjayamanne.git-extension-pack",
+        "donjayamanne.python-extension-pack",
+        "esbenp.prettier-vscode",
+        "felipecaputo.git-project-manager",
+        "GitHub.copilot",
+        "GitHub.vscode-pull-request-github",
+        "GrapeCity.gc-excelviewer",
+        "Gruntfuggly.todo-tree",
+        "mechatroner.rainbow-csv",
+        "mhutchie.git-graph",
+        "ms-azuretools.vscode-docker",
+        "ms-python.black-formatter",
+        "ms-python.flake8",
+        "ms-python.gather",
+        "ms-python.isort",
+        "ms-python.mypy-type-checker",
+        "ms-python.pylint",
+        "ms-toolsai.jupyter-hub",
+        "oderwat.indent-rainbow",
+        "redhat.fabric8-analytics",
+        "seatonjiang.gitmoji-vscode",
+        "streetsidesoftware.code-spell-checker",
+        "tamasfe.even-better-toml",
+        "VisualStudioExptTeam.vscodeintellicode-completions",
+        "yzane.markdown-pdf",
+        "yzhang.markdown-all-in-one",
+        "ms-toolsai.datawrangler",
+        "SonarSource.sonarlint-vscode",
+        "ms-toolsai.jupyter"
+      ]
+    }
+  },
+
+  // Features to add to the dev container. More info: https://containers.dev/features.
+  // "features": {},
+
+  // Use 'forwardPorts' to make a list of ports inside the container available locally.
+  // "forwardPorts": [],
+
+  // Use 'postCreateCommand' to run commands after the container is created.
+  "postCreateCommand": {
+    "Poetry": "poetry install"
+  }
+
+  // Configure tool-specific properties.
+  // "customizations": {},
+
+  // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+  // "remoteUser": "root"
+}
