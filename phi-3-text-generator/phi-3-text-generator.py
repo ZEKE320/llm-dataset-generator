@@ -80,9 +80,9 @@ for i in range(OUTPUT_FILE_COUNT):
     print("\nGenerating new article... Please wait for a while.")
     result: str = generate_article(target_sentence_count=TARGET_SENTENCE_COUNT)
 
-    current_time: str = datetime.now().strftime("%Y-%m-%d_%H:%M:%S")
+    current_time: str = datetime.now().strftime("%Y-%m-%d_%H%M%S")
     filename: str = f"article_{current_time}.txt"
     filepath: Path = output_dir_path.joinpath(filename)
     with open(file=filepath, mode="w", encoding="UTF8") as f:
         f.write(result)
-    print(f"Generated article saved to: {filepath}")
+    print(f"Generated article saved to:\n{filepath}")
