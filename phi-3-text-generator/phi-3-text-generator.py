@@ -13,6 +13,7 @@ from spacy.tokens.doc import Doc
 TARGET_SENTENCE_COUNT = 100
 OUTPUT_FILE_COUNT = 10
 OUTPUT_DIRECTORY = "out"
+OLLAMA_BASE_URL = "http://host.docker.internal:11434"
 
 # %%
 spacy.cli.download("en_core_web_sm")
@@ -20,7 +21,7 @@ spacy.cli.download("en_core_web_sm")
 
 # %%
 def generate_article(target_sentence_count: int) -> str:
-    llm = Ollama(model="phi3:14b", base_url="http://host.docker.internal:11434")
+    llm = Ollama(model="phi3:14b", base_url=OLLAMA_BASE_URL)
     memory = ConversationBufferMemory()
     conversation = ConversationChain(llm=llm, memory=memory)
 
@@ -43,7 +44,9 @@ def generate_article(target_sentence_count: int) -> str:
     nlp: Language = spacy.load(name="en_core_web_sm")
     doc = nlp(result)
     sentence_count = len(list(doc.sents))
-    print(f"---\nCurrent sentence count: {sentence_count}\n---")
+    print(
+        f"---\nCurrent sentence count: {sentence_count} / {target_sentence_count}\n---"
+    )
 
     while sentence_count < target_sentence_count:
         response: str = conversation.predict(
@@ -53,29 +56,33 @@ def generate_article(target_sentence_count: int) -> str:
         )
         print(response)
 
-        result: str = "\n\n".join(
+        result = "\n\n".join(
             (
                 result,
                 response,
             )
         )
-        doc: Doc = nlp(result)
-        sentence_count: int = len(tuple(doc.sents))
-        print(f"---\nCurrent sentence count: {sentence_count}\n---")
+        doc = nlp(result)
+        sentence_count = len(tuple(doc.sents))
+        print(
+            f"---\nCurrent sentence count: {sentence_count} / {target_sentence_count}\n---"
+        )
 
     return result
 
 
 # %%
-cwd: Path = Path.cwd()
-output_dir_path = Path(cwd, OUTPUT_DIRECTORY)
+parent_dir_path = Path(__file__).parent
+output_dir_path: Path = parent_dir_path.joinpath(OUTPUT_DIRECTORY)
 output_dir_path.mkdir(parents=True, exist_ok=True)
 
 for i in range(OUTPUT_FILE_COUNT):
+    print("\nGenerating new article... Please wait for a while.")
     result: str = generate_article(target_sentence_count=TARGET_SENTENCE_COUNT)
 
     current_time: str = datetime.now().strftime("%Y-%m-%d_%H:%M:%S")
     filename: str = f"article_{current_time}.txt"
     filepath: Path = output_dir_path.joinpath(filename)
-    with open(file=filepath, mode="w") as f:
+    with open(file=filepath, mode="w", encoding="UTF8") as f:
         f.write(result)
+    print(f"Generated article saved to: {filepath}")
