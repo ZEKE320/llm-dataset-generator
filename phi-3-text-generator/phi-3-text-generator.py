@@ -10,18 +10,20 @@ from langchain_community.llms.ollama import Ollama
 from spacy.language import Language
 from spacy.tokens.doc import Doc
 
+LANGUAGE_MODEL_NAME = "phi3:14b"
+SPACY_PIPELINE = "en_core_web_sm"
 TARGET_SENTENCE_COUNT = 100
 OUTPUT_FILE_COUNT = 10
 OUTPUT_DIRECTORY = "out"
 OLLAMA_BASE_URL = "http://host.docker.internal:11434"
 
 # %%
-spacy.cli.download("en_core_web_sm")
+spacy.cli.download(SPACY_PIPELINE)
 
 
 # %%
 def generate_article(target_sentence_count: int) -> str:
-    llm = Ollama(model="phi3:14b", base_url=OLLAMA_BASE_URL)
+    llm = Ollama(model=LANGUAGE_MODEL_NAME, base_url=OLLAMA_BASE_URL)
     memory = ConversationBufferMemory()
     conversation = ConversationChain(llm=llm, memory=memory)
 
@@ -41,7 +43,7 @@ def generate_article(target_sentence_count: int) -> str:
     )
     print(result)
 
-    nlp: Language = spacy.load(name="en_core_web_sm")
+    nlp: Language = spacy.load(name=SPACY_PIPELINE)
     doc = nlp(result)
     sentence_count = len(list(doc.sents))
     print(
