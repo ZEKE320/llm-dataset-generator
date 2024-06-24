@@ -3,6 +3,7 @@ from datetime import datetime
 from pathlib import Path
 
 import spacy
+from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from langchain.chains.conversation.base import ConversationChain
 from langchain.memory import ConversationBufferMemory
 from langchain.prompts import PromptTemplate
@@ -20,12 +21,19 @@ OLLAMA_BASE_URL = "http://host.docker.internal:11434"
 # %%
 spacy.cli.download(SPACY_PIPELINE)
 
+# %%
+streaming_handler = StreamingStdOutCallbackHandler()
+
 
 # %%
 def generate_article(target_sentence_count: int) -> str:
-    llm = Ollama(model=LANGUAGE_MODEL_NAME, base_url=OLLAMA_BASE_URL)
+    llm = Ollama(
+        model=LANGUAGE_MODEL_NAME,
+        base_url=OLLAMA_BASE_URL,
+        callbacks=[streaming_handler],
+    )
     memory = ConversationBufferMemory()
-    conversation = ConversationChain(llm=llm, memory=memory)
+    conversation = ConversationChain(llm=llm, memory=memory, verbose=True)
 
     first_prompt_template = PromptTemplate(
         template="Generate a {target_sentence_count}-sentence fictitious article.",
@@ -41,7 +49,6 @@ def generate_article(target_sentence_count: int) -> str:
             target_sentence_count=target_sentence_count,
         )
     )
-    print(result)
 
     nlp: Language = spacy.load(name=SPACY_PIPELINE)
     doc = nlp(result)
@@ -56,7 +63,6 @@ def generate_article(target_sentence_count: int) -> str:
                 target_sentence_count=target_sentence_count,
             )
         )
-        print(response)
 
         result = "\n\n".join(
             (
