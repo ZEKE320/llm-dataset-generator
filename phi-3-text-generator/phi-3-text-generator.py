@@ -44,15 +44,15 @@ def generate_article(target_sentence_count: int) -> str:
         input_variables=["target_sentence_count"],
     )
 
-    result = conversation.predict(
+    result: str = conversation.predict(
         input=first_prompt_template.format(
             target_sentence_count=target_sentence_count,
         )
     )
 
     nlp: Language = spacy.load(name=SPACY_PIPELINE)
-    doc = nlp(result)
-    sentence_count = len(list(doc.sents))
+    doc: Doc = nlp(result)
+    sentence_count: int = len(list(doc.sents))
     print(
         f"---\nCurrent sentence count: {sentence_count} / {target_sentence_count}\n---"
     )
@@ -80,7 +80,7 @@ def generate_article(target_sentence_count: int) -> str:
 
 
 # %%
-parent_dir_path = Path(__file__).parent
+parent_dir_path: Path = Path(__file__).parent
 output_dir_path: Path = parent_dir_path.joinpath(OUTPUT_DIRECTORY)
 output_dir_path.mkdir(parents=True, exist_ok=True)
 
