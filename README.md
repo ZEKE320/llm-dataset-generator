@@ -1,6 +1,10 @@
 # LLM Dataset Generator
 
+![Version](https://img.shields.io/badge/Version-0.2.0-blue)
 ![License: CC0-1.0](https://img.shields.io/badge/License-CC0%201.0-lightgrey.svg)
+![Python](https://img.shields.io/badge/Python-3776AB?style=flat&logo=python&logoColor=white)
+![LangChain](https://img.shields.io/badge/LangChain-🦜🔗-blue)
+![NLP](https://img.shields.io/badge/NLP-Natural_Language_Processing-green)
 
 ## Overview
 
