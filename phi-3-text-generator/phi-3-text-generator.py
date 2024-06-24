@@ -54,7 +54,7 @@ def generate_article(target_sentence_count: int) -> str:
     doc: Doc = nlp(result)
     sentence_count: int = len(list(doc.sents))
     print(
-        f"---\nCurrent sentence count: {sentence_count} / {target_sentence_count}\n---"
+        f"---\n⌛ Current sentence count: {sentence_count} / {target_sentence_count}\n---"
     )
 
     while sentence_count < target_sentence_count:
@@ -73,7 +73,7 @@ def generate_article(target_sentence_count: int) -> str:
         doc = nlp(result)
         sentence_count = len(tuple(doc.sents))
         print(
-            f"---\nCurrent sentence count: {sentence_count} / {target_sentence_count}\n---"
+            f"---\n⌛ Current sentence count: {sentence_count} / {target_sentence_count}\n---"
         )
 
     return result
@@ -85,7 +85,7 @@ output_dir_path: Path = parent_dir_path.joinpath(OUTPUT_DIRECTORY)
 output_dir_path.mkdir(parents=True, exist_ok=True)
 
 for i in range(OUTPUT_FILE_COUNT):
-    print("\nGenerating new article... Please wait for a while.")
+    print("---\n📝 Generating new article... Please wait for a while.\n---")
     result: str = generate_article(target_sentence_count=TARGET_SENTENCE_COUNT)
 
     current_time: str = datetime.now().strftime("%Y-%m-%d_%H%M%S")
@@ -93,4 +93,4 @@ for i in range(OUTPUT_FILE_COUNT):
     filepath: Path = output_dir_path.joinpath(filename)
     with open(file=filepath, mode="w", encoding="UTF8") as f:
         f.write(result)
-    print(f"Generated article saved to:\n{filepath}")
+    print(f"---\n✨ Generated article saved to:\n{filepath.resolve()}\n---")
