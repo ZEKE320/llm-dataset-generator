@@ -36,11 +36,14 @@ def generate_article(target_sentence_count: int) -> str:
     conversation = ConversationChain(llm=llm, memory=memory, verbose=True)
 
     first_prompt_template = PromptTemplate(
-        template="Generate a {target_sentence_count}-sentence fictitious article.",
+        template=(
+            "Create an original, complete piece of article that is at least {target_sentence_count} sentences long. "
+            "Do not summarize or abbreviate any part; continue writing until you've reached at least {target_sentence_count} sentences while maintaining coherence and relevance throughout."
+        ),
         input_variables=["target_sentence_count"],
     )
     continuation_prompt_template = PromptTemplate(
-        template="Write a {target_sentence_count}-sentence sequel to the previous article.",
+        template="Write a sequel to the previous article.",
         input_variables=["target_sentence_count"],
     )
 
