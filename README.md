@@ -1,3 +1,27 @@
+# LLM Dataset Generator
+
+![License: CC0-1.0](https://img.shields.io/badge/License-CC0%201.0-lightgrey.svg)
+
+## Overview
+
+The LLM Dataset Generator is an open-source tool designed to facilitate the creation of text datasets using various language models. This repository provides a framework for generating and collecting text data, supporting research and development in natural language processing (NLP) and related fields.
+
+## License
+
+This project is released under the CC0 1.0 Universal license. It is freely available for use by anyone for research, personal development, or commercial purposes without restriction. For more details, please refer to the [LICENSE](LICENSE) file.
+
+## Examples
+
+Check the following for actual output examples:
+
+- [article_1](phi-3-text-generator/out.example/article_1.txt)
+- [article_2](phi-3-text-generator/out.example/article_2.txt)
+- [article_3](phi-3-text-generator/out.example/article_3.txt)
+
+For Jupyter Notebook execution results, see:
+
+- [phi-3-text-generator.ipynb](phi-3-text-generator/phi-3-text-generator.ipynb)
+
 # Setup Guide for Ollama and Phi-3 Text Generator
 
 ## 1. Creating and Starting the Ollama Container
