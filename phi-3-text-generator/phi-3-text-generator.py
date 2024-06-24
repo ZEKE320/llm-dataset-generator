@@ -3,6 +3,7 @@ from datetime import datetime
 from pathlib import Path
 
 import spacy
+from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from langchain.chains.conversation.base import ConversationChain
 from langchain.memory import ConversationBufferMemory
 from langchain.prompts import PromptTemplate
@@ -20,34 +21,43 @@ OLLAMA_BASE_URL = "http://host.docker.internal:11434"
 # %%
 spacy.cli.download(SPACY_PIPELINE)
 
+# %%
+streaming_handler = StreamingStdOutCallbackHandler()
+
 
 # %%
 def generate_article(target_sentence_count: int) -> str:
-    llm = Ollama(model=LANGUAGE_MODEL_NAME, base_url=OLLAMA_BASE_URL)
+    llm = Ollama(
+        model=LANGUAGE_MODEL_NAME,
+        base_url=OLLAMA_BASE_URL,
+        callbacks=[streaming_handler],
+    )
     memory = ConversationBufferMemory()
-    conversation = ConversationChain(llm=llm, memory=memory)
+    conversation = ConversationChain(llm=llm, memory=memory, verbose=True)
 
     first_prompt_template = PromptTemplate(
-        template="Generate a {target_sentence_count}-sentence fictitious article.",
+        template=(
+            "Create an original, complete piece of article that is at least {target_sentence_count} sentences long. "
+            "Do not summarize or abbreviate any part; continue writing until you've reached at least {target_sentence_count} sentences while maintaining coherence and relevance throughout."
+        ),
         input_variables=["target_sentence_count"],
     )
     continuation_prompt_template = PromptTemplate(
-        template="Write a {target_sentence_count}-sentence sequel to the previous article.",
+        template="Write a sequel to the previous article.",
         input_variables=["target_sentence_count"],
     )
 
-    result = conversation.predict(
+    result: str = conversation.predict(
         input=first_prompt_template.format(
             target_sentence_count=target_sentence_count,
         )
     )
-    print(result)
 
     nlp: Language = spacy.load(name=SPACY_PIPELINE)
-    doc = nlp(result)
-    sentence_count = len(list(doc.sents))
+    doc: Doc = nlp(result)
+    sentence_count: int = len(list(doc.sents))
     print(
-        f"---\nCurrent sentence count: {sentence_count} / {target_sentence_count}\n---"
+        f"---\n⌛ Current sentence count: {sentence_count} / {target_sentence_count}\n---"
     )
 
     while sentence_count < target_sentence_count:
@@ -56,7 +66,6 @@ def generate_article(target_sentence_count: int) -> str:
                 target_sentence_count=target_sentence_count,
             )
         )
-        print(response)
 
         result = "\n\n".join(
             (
@@ -67,19 +76,19 @@ def generate_article(target_sentence_count: int) -> str:
         doc = nlp(result)
         sentence_count = len(tuple(doc.sents))
         print(
-            f"---\nCurrent sentence count: {sentence_count} / {target_sentence_count}\n---"
+            f"---\n⌛ Current sentence count: {sentence_count} / {target_sentence_count}\n---"
         )
 
     return result
 
 
 # %%
-parent_dir_path = Path(__file__).parent
+parent_dir_path: Path = Path(__file__).parent
 output_dir_path: Path = parent_dir_path.joinpath(OUTPUT_DIRECTORY)
 output_dir_path.mkdir(parents=True, exist_ok=True)
 
 for i in range(OUTPUT_FILE_COUNT):
-    print("\nGenerating new article... Please wait for a while.")
+    print("---\n📝 Generating new article... Please wait for a while.\n---")
     result: str = generate_article(target_sentence_count=TARGET_SENTENCE_COUNT)
 
     current_time: str = datetime.now().strftime("%Y-%m-%d_%H%M%S")
@@ -87,4 +96,4 @@ for i in range(OUTPUT_FILE_COUNT):
     filepath: Path = output_dir_path.joinpath(filename)
     with open(file=filepath, mode="w", encoding="UTF8") as f:
         f.write(result)
-    print(f"Generated article saved to:\n{filepath}")
+    print(f"---\n✨ Generated article saved to:\n{filepath.resolve()}\n---")

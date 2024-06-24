@@ -1,5 +1,13 @@
 # Setup Guide for Ollama and Phi-3 Text Generator
 
+**Please check the following for actual output examples:**
+- [article_1](phi-3-text-generator/out.example/article_1.txt)
+- [article_2](phi-3-text-generator/out.example/article_2.txt)
+- [article_3](phi-3-text-generator/out.example/article_3.txt)
+
+**For the execution results using Jupyter Notebook, please refer to:**
+- [phi-3-text-generator.ipynb](phi-3-text-generator/phi-3-text-generator.ipynb)
+
 ## 1. Creating and Starting the Ollama Container
 
 To start the Ollama container and install the Phi-3:14B model, follow these steps:
