@@ -28,6 +28,8 @@ For Jupyter Notebook execution results, see:
 
 # Setup Guide for Ollama and Phi-3 Text Generator
 
+You can check the code from [`phi-3-text-generator/`](phi-3-text-generator).
+
 ## 1. Creating and Starting the Ollama Container
 
 To start the Ollama container and install the Phi-3:14B model, follow these steps:
