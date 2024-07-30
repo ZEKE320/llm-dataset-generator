@@ -13,7 +13,8 @@
   "features": {
     "ghcr.io/devcontainers/features/java": {},
     "ghcr.io/devcontainers/features/python": {
-      "version": "3.12.3"
+      "version": "3.12.3",
+      "installTools": false
     },
     "ghcr.io/devcontainers-contrib/features/poetry": {}
   },
