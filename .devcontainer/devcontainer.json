@@ -13,7 +13,8 @@
   "features": {
     "ghcr.io/devcontainers/features/java": {},
     "ghcr.io/devcontainers/features/python": {
-      "version": "3.12.3"
+      "version": "3.12.3",
+      "installTools": false
     },
     "ghcr.io/devcontainers-contrib/features/poetry": {}
   },
@@ -24,32 +25,18 @@
         "sonarlint.ls.javaHome": "/usr/local/sdkman/candidates/java/current"
       },
       "extensions": [
-        "christian-kohler.path-intellisense",
         "DavidAnson.vscode-markdownlint",
         "donjayamanne.git-extension-pack",
         "donjayamanne.python-extension-pack",
         "esbenp.prettier-vscode",
-        "felipecaputo.git-project-manager",
         "GitHub.copilot",
         "GitHub.vscode-pull-request-github",
-        "GrapeCity.gc-excelviewer",
-        "Gruntfuggly.todo-tree",
         "mechatroner.rainbow-csv",
-        "mhutchie.git-graph",
         "ms-azuretools.vscode-docker",
-        "ms-python.black-formatter",
-        "ms-python.flake8",
-        "ms-python.gather",
-        "ms-python.isort",
-        "ms-python.mypy-type-checker",
-        "ms-python.pylint",
-        "ms-toolsai.jupyter-hub",
-        "oderwat.indent-rainbow",
         "redhat.fabric8-analytics",
         "seatonjiang.gitmoji-vscode",
         "streetsidesoftware.code-spell-checker",
         "tamasfe.even-better-toml",
-        "VisualStudioExptTeam.vscodeintellicode-completions",
         "yzane.markdown-pdf",
         "yzhang.markdown-all-in-one",
         "ms-toolsai.datawrangler",
