@@ -37,8 +37,10 @@ def generate_article(target_sentence_count: int) -> str:
 
     first_prompt_template = PromptTemplate(
         template=(
-            "Create an original, complete piece of article that is at least {target_sentence_count} sentences long. "
-            "Do not summarize or abbreviate any part; continue writing until you've reached at least {target_sentence_count} sentences while maintaining coherence and relevance throughout."
+            "Create a fictional article on a topic of your choice. "
+            "Ensure the article is complete, with no parts omitted. "
+            "Maintain a consistent context throughout the entire piece. "
+            "Be creative and detailed in your writing. "
         ),
         input_variables=["target_sentence_count"],
     )
